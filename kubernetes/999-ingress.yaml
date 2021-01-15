@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - jamesbarnett.io
+    - www.jamesbarnett.io
+    - blog.jamesbarnett.io
+    - reddit.jamesbarnett.io
+    - tfl.jamesbarnett.io
+    secretName: jamesbarnettio-tls-cert
+  rules:
+  - host: jamesbarnett.io
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-static
+          servicePort: 80
+  - host: www.jamesbarnett.io
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-static
+          servicePort: 80
+  - host: blog.jamesbarnett.io
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-static
+          servicePort: 80
+  - host: reddit.jamesbarnett.io
+    http:
+      paths:
+      - backend:
+          serviceName: reddit-lite
+          servicePort: 80
+  - host: tfl.jamesbarnett.io
+    http:
+      paths:
+      - backend:
+          serviceName: tfl-status
+          servicePort: 80
